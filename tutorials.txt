@@ -1,0 +1,11 @@
+https://code.visualstudio.com/docs/languages/python
+https://code.visualstudio.com/docs/python/python-tutorial
+https://developers.google.com/youtube/v3/quickstart/python
+Uninstalling Python Libraries: https://www.w3schools.com/python/gloss_python_pip_packages_remove.asp
+Python Virtual Environment: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
+
+https://www.youtube.com/watch?v=eDe-z2Qy9x4
+
+
+Activate virtual environment with `source .venv/Scripts/activate` in bash terminal.
+Dectivate virtual environment with `deactivate` in bash terminal.
