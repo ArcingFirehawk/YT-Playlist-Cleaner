@@ -1,6 +1,7 @@
 https://code.visualstudio.com/docs/languages/python
 https://code.visualstudio.com/docs/python/python-tutorial
 https://developers.google.com/youtube/v3/quickstart/python
+https://developers.google.com/youtube/v3/docs/playlistItems
 Uninstalling Python Libraries: https://www.w3schools.com/python/gloss_python_pip_packages_remove.asp
 Python Virtual Environment: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
 

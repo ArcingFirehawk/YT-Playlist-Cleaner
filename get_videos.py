@@ -9,7 +9,7 @@ import json
 
 
 
-# Function to get a specific .env variable.
+# Gets specific .env variable.
 def get_env(env_var):
     load_dotenv()
     return(os.getenv(env_var))
@@ -19,7 +19,7 @@ def get_env(env_var):
 def api_extract(input):
     i = 0   # Counter
     vidList = []    # List to contain video IDs.
-    max = input["pageInfo"]["resultsPerPage"]   # 
+    max = input["pageInfo"]["resultsPerPage"]   # The # of results from the API request.
 
     while i < max:
         vidStatus = input["items"][i]["status"]["privacyStatus"]
@@ -33,7 +33,7 @@ def api_extract(input):
     return vidList
 
 
-# Function to print to .json file.
+# Prints to .json file.
 def print_to_file(input, file_name):
     file_directory = "Output/" + file_name
     
@@ -41,7 +41,7 @@ def print_to_file(input, file_name):
         json.dump(input, f)
 
 
-# Function to build the API request.
+# Builds API request.
 def api_request():
     api_service_name = "youtube"
     api_version = "v3"
@@ -52,7 +52,7 @@ def api_request():
 
     request = youtube.playlistItems().list(
         part="contentDetails,status",
-        maxResults=3,
+        maxResults=50,
         playlistId=get_env("PLAYLIST_ID")
     )
 
