@@ -4,53 +4,42 @@ PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and outpu
 
 import os
 import googleapiclient.discovery
-import json
+from dotenv import load_dotenv
+
 
 
 # Function to get a specific .env variable.
 def get_env(env_var):
-    from dotenv import load_dotenv
+    # from dotenv import load_dotenv
 
     load_dotenv()
     return(os.getenv(env_var))
 
 
-# Extracts the video IDs from the Youtube API's output.
+# Extracts video IDs from Youtube API's output.
 def api_extract(input):
-    x = 0
-    vidList = []
-    badVidList = []
-    max = input["pageInfo"]["resultsPerPage"]
-    #print(max)
+    i = 0   # Counter
+    vidList = []    # List to contain video IDs.
+    max = input["pageInfo"]["resultsPerPage"]   # 
 
-    while x < max:
-        vidStatus = input["items"][x]["status"]["privacyStatus"]
+    while i < max:
+        vidStatus = input["items"][i]["status"]["privacyStatus"]
 
         if vidStatus == "public":
-            vidId = input["items"][x]["contentDetails"]["videoId"]
-            print(f"\n\n{vidId}\n\n")
+            vidId = input["items"][i]["contentDetails"]["videoId"]
             vidList.append(vidId)
-        else:
-            badVidList.append(input["items"][x]["contentDetails"]["videoId"])
         
-        x += 1
-
-
-    print(f"List of bad videos: {badVidList}.")
+        i += 1
 
     return vidList
 
 
-# Function to print input to file.
+# Function to print to .json file.
 def print_to_file(input):
-    #import json
+    import json
     
     with open("Output/videoFile.json", "w") as f:
         json.dump(input, f)
-
-
-def extract_json(file_name):
-    json.load
 
 
 # Function to build the API request.
@@ -71,6 +60,7 @@ def api_request():
     return request.execute()
 
 
+
 def main():
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
@@ -81,13 +71,8 @@ def main():
     print_to_file(response)
 
     processed = api_extract(response)
+    print(f"\n\nHere's the list of video IDs: {processed}.\n\n")
 
-    print(f"\n\nHere's the list of good video IDs: {processed}.\n\n")
-
-    #print(f"here's the number of entries: {response[pageInfo[page]]}")
-    #print(f"here's the number of entries: {response[items[contentDetails[videoId]]]}")
-
-    
 
 if __name__ == "__main__":
     main()
