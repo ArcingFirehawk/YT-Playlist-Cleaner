@@ -5,13 +5,12 @@ PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and outpu
 import os
 import googleapiclient.discovery
 from dotenv import load_dotenv
+import json
 
 
 
 # Function to get a specific .env variable.
 def get_env(env_var):
-    # from dotenv import load_dotenv
-
     load_dotenv()
     return(os.getenv(env_var))
 
@@ -35,10 +34,10 @@ def api_extract(input):
 
 
 # Function to print to .json file.
-def print_to_file(input):
-    import json
+def print_to_file(input, file_name):
+    file_directory = "Output/" + file_name
     
-    with open("Output/videoFile.json", "w") as f:
+    with open(file_directory, "w") as f:
         json.dump(input, f)
 
 
@@ -68,10 +67,12 @@ def main():
     response = api_request()
 
     print(f"\n\nHere's the response from Youtube: \n{response}\n\n")
-    print_to_file(response)
+    print_to_file(response, "videoFile.json")
 
     processed = api_extract(response)
     print(f"\n\nHere's the list of video IDs: {processed}.\n\n")
+
+    print_to_file(processed, "videoList.json")
 
 
 if __name__ == "__main__":
