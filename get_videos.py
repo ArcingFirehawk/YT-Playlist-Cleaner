@@ -19,17 +19,24 @@ def get_env(env_var):
 def api_extract(input):
     x = 0
     vidList = []
+    badVidList = []
     max = input["pageInfo"]["resultsPerPage"]
     #print(max)
 
     while x < max:
-        num = x + 1
-
         vidStatus = input["items"][x]["status"]["privacyStatus"]
 
         if vidStatus == "public":
             vidId = input["items"][x]["contentDetails"]["videoId"]
+            print(f"\n\n{vidId}\n\n")
             vidList.append(vidId)
+        else:
+            badVidList.append(input["items"][x]["contentDetails"]["videoId"])
+        
+        x += 1
+
+
+    print(f"List of bad videos: {badVidList}.")
 
     return vidList
 
@@ -57,7 +64,7 @@ def api_request():
 
     request = youtube.playlistItems().list(
         part="contentDetails,status",
-        maxResults=1,
+        maxResults=3,
         playlistId=get_env("PLAYLIST_ID")
     )
 
@@ -75,7 +82,7 @@ def main():
 
     processed = api_extract(response)
 
-    print(f"\n\nHere's the list of video IDs: {processed}.\n\n")
+    print(f"\n\nHere's the list of good video IDs: {processed}.\n\n")
 
     #print(f"here's the number of entries: {response[pageInfo[page]]}")
     #print(f"here's the number of entries: {response[items[contentDetails[videoId]]]}")
