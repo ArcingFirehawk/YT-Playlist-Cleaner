@@ -53,7 +53,7 @@ def api_request():
     request = youtube.playlistItems().list(
         part="contentDetails,status",
         maxResults=50,
-        playlistId=get_env("PLAYLIST_ID")
+        playlistId=get_env("OLD_PLAYLIST_ID")
     )
 
     return request.execute()
