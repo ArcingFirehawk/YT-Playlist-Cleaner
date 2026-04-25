@@ -1,4 +1,6 @@
-"""Testing how to read variables from a .env file."""
+"""
+PURPOSE: Testing how to read variables from a .env file.
+"""
 
 from dotenv import load_dotenv
 import os

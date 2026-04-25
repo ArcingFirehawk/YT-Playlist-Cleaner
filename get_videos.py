@@ -46,18 +46,18 @@ def print_to_file(input, file_name):
 
 
 # Builds API request.
-def api_request(num_results):
-    api_service_name = "youtube"
-    api_version = "v3"
-    DEVELOPER_KEY = get_env("API_KEY")
+def api_request(api_service_name, api_version, api_key, pl_id, num_results=1):
+    # api_service_name = "youtube"
+    # api_version = "v3"
+    # DEVELOPER_KEY = get_env("API_KEY")
 
     youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, developerKey = DEVELOPER_KEY)
+        api_service_name, api_version, developerKey = api_key)
 
     request = youtube.playlistItems().list(
         part="snippet,contentDetails,status",
         maxResults=num_results,
-        playlistId=get_env("OLD_PLAYLIST_ID")
+        playlistId=pl_id
     )
 
     return request.execute()
@@ -65,10 +65,17 @@ def api_request(num_results):
 
 
 def main():
+    API_SERVICE_NAME = "youtube"
+    API_VERSION = "v3"
+    api_key = get_env("API_KEY")
+    pl_id = get_env("OLD_PLAYLIST_ID")
+    num_results = 5
+
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
-    response = api_request(1)
+    
+    response = api_request(API_SERVICE_NAME, API_VERSION, api_key, pl_id, num_results)
 
     print(f"\n\nHere's the response from Youtube: \n{response}\n\n")
     print_to_file(response, "videoFile.json")
