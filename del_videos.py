@@ -1,17 +1,13 @@
 """
-PURPOSE: Adds videos to a playlist using their video ID.
+PURPOSE: Removes videos from a playlist.
 """
-
-# -*- coding: utf-8 -*-
-
-# Sample Python code for youtube.playlistItems.insert
-# See instructions for running these code samples locally:
-# https://developers.google.com/explorer-help/code-samples#python
 
 import os
 
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
+import googleapiclient.errors
+
 
 from dotenv import load_dotenv
 
@@ -30,8 +26,7 @@ def api_request():
     api_service_name = "youtube"
     api_version = "v3"
     client_secrets_file = "client_secret_file.json"
-    playlist_id = get_env("NEW_PLAYLIST_ID")
-    vid_id = get_env("TEST_VIDEO")
+    playlist_item_id = get_env("TEST_PLAYLIST_ITEM_ID")
 
     # Get credentials and create an API client
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
@@ -41,21 +36,13 @@ def api_request():
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
-    request = youtube.playlistItems().insert(
-        part="snippet",
-        body={
-          "snippet": {
-            "playlistId": playlist_id,
-            "position": 0,
-            "resourceId": {
-              "kind": "youtube#video",
-              "videoId": vid_id
-            }
-          }
-        }
+    request = youtube.playlistItems().delete(
+        id=playlist_item_id
     )
+
+    request.execute()
     
-    return request.execute()
+    #return request.execute()
 
 
 

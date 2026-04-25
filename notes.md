@@ -7,3 +7,5 @@ I renamed my project, but found out that my virtual environment couldn't find my
 Writing the YT API's output (of video IDs) to a text file didn't work, so I continued with .json.
 
 The max # of results I can get per query is 50.
+
+Adding videos to playlists can be done with a Video ID, but removing them from playlists requires a Playlist Item ID.
