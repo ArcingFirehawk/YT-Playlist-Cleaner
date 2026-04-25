@@ -33,7 +33,6 @@ def extract(input):
         vidStatus = input["items"][i]["status"]["privacyStatus"]
 
         if vidStatus == "public":
-            vid
             playlistItemId = input["items"][i]["id"]
             vidId = input["items"][i]["contentDetails"]["videoId"]
 
