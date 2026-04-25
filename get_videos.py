@@ -18,15 +18,19 @@ def get_env(env_var):
 # Extracts video IDs from Youtube API's output.
 def api_extract(input):
     i = 0   # Counter
-    vidList = []    # List to contain video IDs.
+    vidList = []    # List to contain vidTuples.
+    vidTuple = () # Tuple to contain playlist item IDs and video IDs.
     max = input["pageInfo"]["resultsPerPage"]   # The # of results from the API request.
 
     while i < max:
         vidStatus = input["items"][i]["status"]["privacyStatus"]
 
         if vidStatus == "public":
+            playlistItemId = input["items"][i]["id"]
             vidId = input["items"][i]["contentDetails"]["videoId"]
-            vidList.append(vidId)
+
+            vidTuple = (playlistItemId, vidId)
+            vidList.append(vidTuple)
         
         i += 1
 
