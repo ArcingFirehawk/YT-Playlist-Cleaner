@@ -1,4 +1,4 @@
-class Video:
+class Playlist:
     def __init__(self, name, pl_id, videos=None):
         self.name = name
         self.pl_id = pl_id
