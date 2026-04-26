@@ -1,8 +1,8 @@
 class Video:
-    def __init__(self, title, vid_id, playlist_item_id):
+    def __init__(self, title, vid_id, pl_item_id):
         self.title = title
         self.vid_id = vid_id
-        self.pl_item_id = playlist_item_id
+        self.pl_item_id = pl_item_id
 
 
     def __str__(self):
