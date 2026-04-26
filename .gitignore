@@ -1,6 +1,5 @@
 .venv
 .env
-todo.txt
 Output
 client_secret_file.json
 __pycache__

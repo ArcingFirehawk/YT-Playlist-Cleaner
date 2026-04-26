@@ -1,3 +1,8 @@
+## To-Do
++ Deal with case where all videos in get_vids_response (playlist_edit.py) are unlisted. Consider: counter that counts how many unlisted videos are in the list, if there's ~20 delete them. Might need another list to contain them.
+
+
+## Notes
 In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
 
 In my API output testing, I found out that, among other things, unavailable videos have a privacy status called "privacyStatusUnspecified" as opposed to "public". I can use that to modify my query to only get the videos that are available.
