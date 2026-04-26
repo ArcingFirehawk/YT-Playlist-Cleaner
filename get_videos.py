@@ -69,7 +69,7 @@ def main():
     API_VERSION = "v3"
     api_key = get_env("API_KEY")
     pl_id = get_env("OLD_PLAYLIST_ID")
-    num_results = 5
+    num_results = 3
 
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.

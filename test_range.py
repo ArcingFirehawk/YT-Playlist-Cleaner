@@ -2,32 +2,57 @@
 PURPOSE: Testing range function with objects.
 """
 
-import json
-import Classes.Video as Video
+import json, os
+from Classes.Video import Video
+import get_videos
 
 
 videos = []
 
 
-with open("Output/videoList.json") as f:
-    file = json.load(f)
-    f.close()
-
-length = len(file)
-
-
-for i in range(length):
-    vidStatus = file["items"][i]["status"]["privacyStatus"]
-
-    if vidStatus == "public":
-        vid_title = file["items"][i]["snippet"]["title"]
-        vid_id = file["items"][i]["contentDetails"]["videoId"]
-        pl_item_id = file["items"][i]["id"]
+# Extracts video IDs from Youtube API's output using classes.
+def api_class_extract(input):
+    vid_list = []
+    length = input["pageInfo"]["resultsPerPage"]
 
 
-        videos.append(Video(vid_title, vid_id, pl_item_id))
+    for i in range(length):
+        vid_status = input["items"][i]["status"]["privacyStatus"]
 
-        
-        i += 1
+        if vid_status == "public":
+            vid_title = input["items"][i]["snippet"]["title"]
+            vid_id = input["items"][i]["contentDetails"]["videoId"]
+            vid_creator = input["items"][i]["snippet"]["videoOwnerChannelTitle"]
+            pl_item_id = input["items"][i]["id"]
 
-print(videos)
+            vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
+            
+
+    return vid_list
+
+
+def main():
+    API_SERVICE_NAME = "youtube"
+    API_VERSION = "v3"
+    api_key = get_videos.get_env("API_KEY")
+    pl_id = get_videos.get_env("OLD_PLAYLIST_ID")
+    num_results = 3
+
+    # Disable OAuthlib's HTTPS verification when running locally.
+    # *DO NOT* leave this option enabled in production.
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
+    
+    response = get_videos.api_request(API_SERVICE_NAME, API_VERSION, api_key, pl_id, num_results)
+    print(f"\n\n{response}\n\n")
+
+    processed = api_class_extract(response)
+
+    print(processed)
+    print(processed[0])
+    print(processed[1])
+    print(processed[1].vid_id)
+
+
+
+if __name__ == "__main__":
+    main()
