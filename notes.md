@@ -11,3 +11,5 @@ The max # of results I can get per query is 50.
 Adding videos to playlists can be done with a Video ID, but removing them from playlists requires a Playlist Item ID.
 
 You shouldn't pass mutable data types as default arguements.
+
+I can only add/delete videos from a playlist one at a time.

@@ -22,22 +22,21 @@ def get_env(env_var):
 
 
 # Builds API request.
-def api_request():
+def api_request(api_key, pl_item_id):
     api_service_name = "youtube"
     api_version = "v3"
-    client_secrets_file = "client_secret_file.json"
-    playlist_item_id = get_env("TEST_PLAYLIST_ITEM_ID")
+    # client_secrets_file = "client_secret_file.json"
+    # playlist_item_id = get_env("TEST_PLAYLIST_ITEM_ID")
 
     # Get credentials and create an API client
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
-        client_secrets_file, scopes)
-    #credentials = flow.run_console()
+        api_key, scopes)
     credentials = flow.run_local_server(port=0)
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
 
     request = youtube.playlistItems().delete(
-        id=playlist_item_id
+        id=pl_item_id
     )
 
     request.execute()

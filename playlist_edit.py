@@ -36,13 +36,13 @@ def extract(api_response):
 
 
 def main():
-    num_results = 1 # max is 50.
-
     # Credential Vars.
     api_key_public = get_env("API_KEY")
     api_key_private = "Credentials\client_secret_file.json"
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
+
+    num_results = 1 # max is 50.
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
@@ -50,8 +50,11 @@ def main():
     get_vids_response = get_videos.api_request(api_key_public, old_pl_id, num_results)
     
     vid_list = extract(get_vids_response)
+    print(f"\n\n{vid_list[0].title}\n\n")
 
     add_videos.api_request(api_key_private, new_pl_id, vid_list[0].vid_id)
+    del_videos.api_request(api_key_private, vid_list[0].pl_item_id)
+
 
 
 if __name__ == "__main__":
