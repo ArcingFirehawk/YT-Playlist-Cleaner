@@ -12,7 +12,7 @@ from Classes.Playlist import Playlist
 
 # Gets specific .env variable.
 def get_env(env_var):
-    load_dotenv()
+    load_dotenv("Credentials/.env")
     return(os.getenv(env_var))
 
 
@@ -53,8 +53,9 @@ def main():
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
 
     get_vids_response = get_videos.api_request(API_SERVICE_NAME, API_VERSION, api_key, old_pl_id, num_results)
-
     extract(get_vids_response)
+
+    add_videos.api_request()
 
 
 if __name__ == "__main__":
