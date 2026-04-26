@@ -6,8 +6,7 @@ import os
 from dotenv import load_dotenv
 from Classes.Video import Video
 import get_videos, add_videos, del_videos
-from Classes.Playlist import Playlist
-
+# from Classes.Playlist import Playlist
 
 
 # Gets specific .env variable.
@@ -37,25 +36,22 @@ def extract(api_response):
 
 
 def main():
-    # YT Vars.
-    API_SERVICE_NAME = "youtube"
-    API_VERSION = "v3"
     num_results = 1 # max is 50.
 
     # Credential Vars.
-    api_key = get_env("API_KEY")
-    client_secrets_file = "client_secret_file.json"
-    #playlist_item_id = get_env("TEST_PLAYLIST_ITEM_ID")
+    api_key_public = get_env("API_KEY")
+    api_key_private = "Credentials\client_secret_file.json"
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
 
-    get_vids_response = get_videos.api_request(API_SERVICE_NAME, API_VERSION, api_key, old_pl_id, num_results)
-    extract(get_vids_response)
+    get_vids_response = get_videos.api_request(api_key_public, old_pl_id, num_results)
+    
+    vid_list = extract(get_vids_response)
 
-    add_videos.api_request()
+    add_videos.api_request(api_key_private, new_pl_id, vid_list[0].vid_id)
 
 
 if __name__ == "__main__":
