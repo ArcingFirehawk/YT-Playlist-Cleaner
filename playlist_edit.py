@@ -3,16 +3,11 @@ PURPOSE: To consolidate the .py files into one place.
 """
 
 import os
-from dotenv import load_dotenv
 from Classes.Video import Video
 import get_videos, add_videos, del_videos
+from common_funcs import get_env
 # from Classes.Playlist import Playlist
 
-
-# Gets specific .env variable.
-def get_env(env_var):
-    load_dotenv("Credentials/.env")
-    return(os.getenv(env_var))
 
 
 # Extracts the API's output into the Video class format.
@@ -59,23 +54,15 @@ def main():
     good_vid_list, bad_vid_list = extract(get_vids_response)
     good_length = len(good_vid_list)
     bad_length = len(bad_vid_list)
-    # print(f"\n\n{vid_list[0].title}\n\n")
-
-    print("\n\n-----Bad Videos-----")
 
     # if statement to clean up old playlist so that next API request has fewer "bad" videos.
-    if bad_length >= 0:
+    if bad_length >= 20:
         for i in range(bad_length):
             del_videos.api_request(api_key_private, bad_vid_list[i].pl_item_id)
-            print(bad_vid_list[i].title)
-
-    print("\n\n-----Good Videos-----")
 
     for i in range(good_length):
         add_videos.api_request(api_key_private, new_pl_id, good_vid_list[i].vid_id)
         del_videos.api_request(api_key_private, good_vid_list[i].pl_item_id)
-        print(good_vid_list[i].title)
-
 
 
 if __name__ == "__main__":

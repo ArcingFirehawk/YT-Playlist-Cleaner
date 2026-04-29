@@ -2,37 +2,29 @@
 PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and output them into a file.
 """
 
-import os
+import os, json
 import googleapiclient.discovery
-from dotenv import load_dotenv
-import json
+from common_funcs import get_env
+from Classes.Video import Video
 
-
-
-# Gets specific .env variable.
-def get_env(env_var):
-    load_dotenv()
-    return(os.getenv(env_var))
 
 
 # Extracts video IDs from Youtube API's output.
-def api_extract(input):
+def api_extract(api_response):
     i = 0   # Counter
     vidList = []    # List to contain vidTuples.
     vidTuple = () # Tuple to contain playlist item IDs and video IDs.
-    max = input["pageInfo"]["resultsPerPage"]   # The # of results from the API request.
+    length = api_response["pageInfo"]["resultsPerPage"]   # # of results from  API request.
 
-    while i < max:
-        vidStatus = input["items"][i]["status"]["privacyStatus"]
+    for i in range(length):
+        vidStatus = api_response["items"][i]["status"]["privacyStatus"]
 
         if vidStatus == "public":
-            playlistItemId = input["items"][i]["id"]
-            vidId = input["items"][i]["contentDetails"]["videoId"]
+            playlistItemId = api_response["items"][i]["id"]
+            vidId = api_response["items"][i]["contentDetails"]["videoId"]
 
             vidTuple = (playlistItemId, vidId)
             vidList.append(vidTuple)
-        
-        i += 1
 
     return vidList
 
@@ -50,8 +42,7 @@ def api_request(api_key, pl_id, num_results=1):
     api_service_name = "youtube"
     api_version = "v3"
 
-    youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, developerKey = api_key)
+    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = api_key)
 
     request = youtube.playlistItems().list(
         part="snippet,contentDetails,status",
@@ -62,17 +53,16 @@ def api_request(api_key, pl_id, num_results=1):
     return request.execute()
 
 
-
 def main():
     api_key = get_env("API_KEY")
     pl_id = get_env("OLD_PLAYLIST_ID")
-    num_results = 3
+    max_results = 3
 
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
     
-    response = api_request(api_key, pl_id, num_results)
+    response = api_request(api_key, pl_id, max_results)
 
     print(f"\n\nHere's the response from Youtube: \n{response}\n\n")
     print_to_file(response, "videoFile.json")
