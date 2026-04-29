@@ -2,39 +2,40 @@
 PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and output them into a file.
 """
 
-import os, json
+import os
 import googleapiclient.discovery
-from common_funcs import get_env
+from common_funcs import get_env, print_to_file
 from Classes.Video import Video
 
 
 
-# Extracts video IDs from Youtube API's output.
-def api_extract(api_response):
-    i = 0   # Counter
-    vidList = []    # List to contain vidTuples.
-    vidTuple = () # Tuple to contain playlist item IDs and video IDs.
-    length = api_response["pageInfo"]["resultsPerPage"]   # # of results from  API request.
+# Extracts the API's output into the Video class format.
+def extract(api_response):
+    good_vid_list = []  # List containing public videos.
+    bad_vid_list = []   # List containing unavailable videos.
+    length = api_response["pageInfo"]["resultsPerPage"]
+
 
     for i in range(length):
-        vidStatus = api_response["items"][i]["status"]["privacyStatus"]
+        vid_status = api_response["items"][i]["status"]["privacyStatus"]
 
-        if vidStatus == "public":
-            playlistItemId = api_response["items"][i]["id"]
-            vidId = api_response["items"][i]["contentDetails"]["videoId"]
+        if vid_status == "public":
+            vid_title = api_response["items"][i]["snippet"]["title"]
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
+            vid_creator = api_response["items"][i]["snippet"]["videoOwnerChannelTitle"]
+            pl_item_id = api_response["items"][i]["id"]
 
-            vidTuple = (playlistItemId, vidId)
-            vidList.append(vidTuple)
+            good_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
+        else:
+            vid_title = f"Unavailable{i + 1:02d}"
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
+            vid_creator = "N/A"
+            pl_item_id = api_response["items"][i]["id"]
 
-    return vidList
+            bad_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
 
-
-# Prints to .json file.
-def print_to_file(input, file_name):
-    file_directory = "Output/" + file_name
     
-    with open(file_directory, "w") as f:
-        json.dump(input, f)
+    return good_vid_list, bad_vid_list
 
 
 # Builds API request.
@@ -64,13 +65,25 @@ def main():
     
     response = api_request(api_key, pl_id, max_results)
 
-    print(f"\n\nHere's the response from Youtube: \n{response}\n\n")
-    print_to_file(response, "videoFile.json")
+    print_to_file(response, "rawResponse.json")
 
-    processed = api_extract(response)
-    print(f"\n\nHere's the list of video IDs: {processed}.\n\n")
+    good_vid_list, bad_vid_list = extract(response)
+    good_length = len(good_vid_list)
+    bad_length = len(bad_vid_list)
 
-    print_to_file(processed, "videoList.json")
+    if good_length > 0:
+        print("\n\n-----Good Videos List-----")
+        for i in range(len(good_vid_list)):
+            print(good_vid_list[i].title)
+    
+    if bad_length > 0:
+        print("\n-----Bad Videos List-----")
+        for i in range(len(bad_vid_list)):
+            print(bad_vid_list[i].title)
+    print("\n\n")
+
+    print_to_file(good_vid_list, "processedResponseGood.json")
+    print_to_file(bad_vid_list, "processedResponseBad.json")
 
 
 if __name__ == "__main__":

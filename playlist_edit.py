@@ -49,13 +49,13 @@ def main():
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
 
-    get_vids_response = get_videos.api_request(api_key_public, old_pl_id, max_results)
+    response = get_videos.api_request(api_key_public, old_pl_id, max_results)
     
-    good_vid_list, bad_vid_list = extract(get_vids_response)
+    good_vid_list, bad_vid_list = extract(response)
     good_length = len(good_vid_list)
     bad_length = len(bad_vid_list)
 
-    # if statement to clean up old playlist so that next API request has fewer "bad" videos.
+    # if statement to clean up old playlist so next API request has fewer "bad" videos.
     if bad_length >= 20:
         for i in range(bad_length):
             del_videos.api_request(api_key_private, bad_vid_list[i].pl_item_id)
