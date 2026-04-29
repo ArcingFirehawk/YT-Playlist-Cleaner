@@ -1,3 +1,9 @@
+"""
+PURPOSE: See how Python code interacts with YT Data API v3.
+"""
+
+
+
 # -*- coding: utf-8 -*-
 
 # Sample Python code for youtube.channels.list

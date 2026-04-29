@@ -1,5 +1,5 @@
 .venv
 .env
-todo.txt
 Output
-Process.md
+client_secret_file.json
+__pycache__

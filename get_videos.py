@@ -4,75 +4,86 @@ PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and outpu
 
 import os
 import googleapiclient.discovery
-from dotenv import load_dotenv
-import json
+from common_funcs import get_env, print_to_file
+from Classes.Video import Video
 
 
 
-# Gets specific .env variable.
-def get_env(env_var):
-    load_dotenv()
-    return(os.getenv(env_var))
+# Extracts the API's output into the Video class format.
+def extract(api_response):
+    good_vid_list = []  # List containing public videos.
+    bad_vid_list = []   # List containing unavailable videos.
+    length = api_response["pageInfo"]["resultsPerPage"]
 
 
-# Extracts video IDs from Youtube API's output.
-def api_extract(input):
-    i = 0   # Counter
-    vidList = []    # List to contain video IDs.
-    max = input["pageInfo"]["resultsPerPage"]   # The # of results from the API request.
+    for i in range(length):
+        vid_status = api_response["items"][i]["status"]["privacyStatus"]
 
-    while i < max:
-        vidStatus = input["items"][i]["status"]["privacyStatus"]
+        if vid_status == "public":
+            vid_title = api_response["items"][i]["snippet"]["title"]
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
+            vid_creator = api_response["items"][i]["snippet"]["videoOwnerChannelTitle"]
+            pl_item_id = api_response["items"][i]["id"]
 
-        if vidStatus == "public":
-            vidId = input["items"][i]["contentDetails"]["videoId"]
-            vidList.append(vidId)
-        
-        i += 1
+            good_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
+        else:
+            vid_title = f"Unavailable{i + 1:02d}"
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
+            vid_creator = "N/A"
+            pl_item_id = api_response["items"][i]["id"]
 
-    return vidList
+            bad_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
 
-
-# Prints to .json file.
-def print_to_file(input, file_name):
-    file_directory = "Output/" + file_name
     
-    with open(file_directory, "w") as f:
-        json.dump(input, f)
+    return good_vid_list, bad_vid_list
 
 
 # Builds API request.
-def api_request():
+def api_request(api_key, pl_id, num_results=1):
     api_service_name = "youtube"
     api_version = "v3"
-    DEVELOPER_KEY = get_env("API_KEY")
 
-    youtube = googleapiclient.discovery.build(
-        api_service_name, api_version, developerKey = DEVELOPER_KEY)
+    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = api_key)
 
     request = youtube.playlistItems().list(
-        part="contentDetails,status",
-        maxResults=50,
-        playlistId=get_env("PLAYLIST_ID")
+        part="snippet,contentDetails,status",
+        maxResults=num_results,
+        playlistId=pl_id
     )
 
     return request.execute()
 
 
-
 def main():
+    api_key = get_env("API_KEY")
+    pl_id = get_env("OLD_PLAYLIST_ID")
+    max_results = 3
+
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
-    response = api_request()
+    
+    response = api_request(api_key, pl_id, max_results)
 
-    print(f"\n\nHere's the response from Youtube: \n{response}\n\n")
-    print_to_file(response, "videoFile.json")
+    print_to_file(response, "rawResponse.json")
 
-    processed = api_extract(response)
-    print(f"\n\nHere's the list of video IDs: {processed}.\n\n")
+    good_vid_list, bad_vid_list = extract(response)
+    good_length = len(good_vid_list)
+    bad_length = len(bad_vid_list)
 
-    print_to_file(processed, "videoList.json")
+    if good_length > 0:
+        print("\n\n-----Good Videos List-----")
+        for i in range(len(good_vid_list)):
+            print(good_vid_list[i].title)
+    
+    if bad_length > 0:
+        print("\n-----Bad Videos List-----")
+        for i in range(len(bad_vid_list)):
+            print(bad_vid_list[i].title)
+    print("\n\n")
+
+    print_to_file(good_vid_list, "processedResponseGood.json")
+    print_to_file(bad_vid_list, "processedResponseBad.json")
 
 
 if __name__ == "__main__":

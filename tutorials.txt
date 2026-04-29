@@ -7,6 +7,7 @@ Python Virtual Environment: https://packaging.python.org/en/latest/guides/instal
 
 https://www.youtube.com/watch?v=eDe-z2Qy9x4
 https://www.youtube.com/watch?v=i_5xPDX-erE
+https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU
 
 
 Activate virtual environment with `source .venv/Scripts/activate` in bash terminal.
