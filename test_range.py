@@ -2,7 +2,7 @@
 PURPOSE: Testing range function with objects.
 """
 
-import json, os
+import os
 from Classes.Video import Video
 import get_videos
 
