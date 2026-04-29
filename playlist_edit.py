@@ -66,14 +66,14 @@ def main():
     # if statement to clean up old playlist so that next API request has fewer "bad" videos.
     if bad_length >= 0:
         for i in range(bad_length):
-            # del_videos.api_request(api_key_private, bad_vid_list[i].pl_item_id)
+            del_videos.api_request(api_key_private, bad_vid_list[i].pl_item_id)
             print(bad_vid_list[i].title)
 
     print("\n\n-----Good Videos-----")
 
     for i in range(good_length):
-        # add_videos.api_request(api_key_private, new_pl_id, vid_list[i].vid_id)
-        # del_videos.api_request(api_key_private, vid_list[i].pl_item_id)
+        add_videos.api_request(api_key_private, new_pl_id, good_vid_list[i].vid_id)
+        del_videos.api_request(api_key_private, good_vid_list[i].pl_item_id)
         print(good_vid_list[i].title)
 
 

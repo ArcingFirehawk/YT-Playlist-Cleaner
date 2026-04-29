@@ -1,5 +1,5 @@
 ## To-Do
-+ Deal with case where all videos in get_vids_response (playlist_edit.py) are unlisted. Consider: counter that counts how many unlisted videos are in the list, if there's ~20 delete them. Might need another list to contain them.
++ playlist_edit.py works, but I have to authorize the API request every time.
 
 
 ## Notes
