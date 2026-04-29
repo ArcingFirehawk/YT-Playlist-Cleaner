@@ -3,7 +3,7 @@ PURPOSE: Test how to get the type of an class and check it in a if statement.
 """
 
 
-from Classes import Video
+from Classes.Video import Video
 import json
 
 class1 = Video("hi", 654, "dave", 2345)
