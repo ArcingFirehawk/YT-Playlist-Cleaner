@@ -3,10 +3,8 @@ PURPOSE: Collection of common functions.
 """
 
 import os, json
-import google_auth_oauthlib.flow
 import googleapiclient.discovery
 from dotenv import load_dotenv
-from Classes.Video import Video
 
 
 
@@ -41,7 +39,7 @@ def build_service_obj(need_auth, api_key):
     """
     if need_auth:
         youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=api_key)
-    elif need_auth == False:
+    elif not need_auth:
         youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=api_key)
     else:
         youtube = None

@@ -4,7 +4,7 @@ PURPOSE: Adds videos to a playlist using their video ID.
 
 import os
 from common_funcs import get_env, build_service_obj
-import token_handling
+from token_handling import check_token
 
 
 # Builds API request.
@@ -29,8 +29,7 @@ def api_request(api_key, pl_id, vid_id):
 
 
 def main():
-    # api_key_private = "Credentials/client_secret_file.json"
-    api_key_private = token_handling.main()
+    api_key_private = check_token()
     playlist_id = get_env("NEW_PLAYLIST_ID")
     vid_id = get_env("TEST_VIDEO")
 

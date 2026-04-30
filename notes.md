@@ -1,6 +1,8 @@
 ## To-Do
-+ playlist_edit.py works, but I have to authorize the API request every time.
 + common_funcs.build_service_obj, restrict need_auth to boolean?
++ Add try-except to files that call common_funcs.build_service_obj in case of failures.
++ Add operation success messages to add_videos.py, del_videos.py, and get_videos.py.
+  + E.g., "Successfully added the video(s) to the playlist."
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
