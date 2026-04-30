@@ -11,3 +11,4 @@
 + Adding videos to playlists can be done with a Video ID, but removing them from playlists requires a Playlist Item ID.
 + You shouldn't pass mutable data types as default arguements.
 + I can only add/delete one video from a playlist at a time.
++ According to the Credentials class in google.oauth2.credentials, some attributes (e.g., .expired and .valid) are depreciated. Use .token_state instead.

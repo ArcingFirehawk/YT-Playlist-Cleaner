@@ -4,7 +4,7 @@ PURPOSE: Adds videos to a playlist using their video ID.
 
 import os
 from common_funcs import get_env, build_service_obj
-
+import token_handling
 
 
 # Builds API request.
@@ -29,10 +29,12 @@ def api_request(api_key, pl_id, vid_id):
 
 
 def main():
-    api_key_private = "Credentials/client_secret_file.json"
+    # api_key_private = "Credentials/client_secret_file.json"
+    api_key_private = token_handling.main()
     playlist_id = get_env("NEW_PLAYLIST_ID")
     vid_id = get_env("TEST_VIDEO")
 
+    print(f"\n\n{api_key_private}\n\n")
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
