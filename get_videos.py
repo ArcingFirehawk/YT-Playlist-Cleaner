@@ -21,15 +21,15 @@ def extract(api_response):
 
         if vid_status == "public":
             vid_title = api_response["items"][i]["snippet"]["title"]
-            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             vid_creator = api_response["items"][i]["snippet"]["videoOwnerChannelTitle"]
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             pl_item_id = api_response["items"][i]["id"]
 
             good_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
         else:
             vid_title = f"Unavailable{i + 1:02d}"
-            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             vid_creator = "N/A"
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             pl_item_id = api_response["items"][i]["id"]
 
             bad_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
