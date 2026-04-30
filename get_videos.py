@@ -68,12 +68,12 @@ def main():
 
     if good_length > 0:
         print("\n\n-----Good Videos List-----")
-        for i in range(len(good_vid_list)):
+        for i in range(good_length):
             print(good_vid_list[i].title)
     
     if bad_length > 0:
         print("\n-----Bad Videos List-----")
-        for i in range(len(bad_vid_list)):
+        for i in range(bad_length):
             print(bad_vid_list[i].title)
     print("\n\n")
 
