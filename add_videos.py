@@ -2,24 +2,14 @@
 PURPOSE: Adds videos to a playlist using their video ID.
 """
 
-import google_auth_oauthlib.flow
-import googleapiclient.discovery
 import os
-from common_funcs import get_env
+from common_funcs import get_env, build_service_obj
 
-
-scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
 
 # Builds API request.
 def api_request(api_key, pl_id, vid_id):
-    api_service_name = "youtube"
-    api_version = "v3"
-
-    # Get credentials and create an API client.
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(api_key, scopes)
-    credentials = flow.run_local_server(port=0)
-    youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
+    youtube = build_service_obj(True, api_key)
 
     request = youtube.playlistItems().insert(
         part="snippet",

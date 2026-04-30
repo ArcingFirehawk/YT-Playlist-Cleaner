@@ -3,9 +3,10 @@ PURPOSE: Collection of common functions.
 """
 
 import os, json
+import google_auth_oauthlib.flow
+import googleapiclient.discovery
 from dotenv import load_dotenv
 from Classes.Video import Video
-
 
 
 
@@ -26,3 +27,26 @@ def print_to_file(input, file_name):
     else:
         with open(file_directory, "w") as f:
             json.dump(input, f)
+
+
+# Builds YT Data API service obj.
+def build_service_obj(need_auth, api_key):
+    api_service_name = "youtube"
+    api_version = "v3"
+    scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+
+
+    """
+    if-else statement to test if need_auth is True or False to determine type of obj. to build.
+    True creates authorized service obj., False creates simple service obj.
+    """
+    if need_auth:
+        flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(api_key, scopes)
+        credentials = flow.run_local_server(port=0)
+        youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
+    elif need_auth == False:
+        youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=api_key)
+    else:
+        youtube = None
+    
+    return youtube

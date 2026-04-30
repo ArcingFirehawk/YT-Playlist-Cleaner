@@ -3,8 +3,7 @@ PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and outpu
 """
 
 import os
-import googleapiclient.discovery
-from common_funcs import get_env, print_to_file
+from common_funcs import get_env, print_to_file, build_service_obj
 from Classes.Video import Video
 
 
@@ -33,17 +32,13 @@ def extract(api_response):
             pl_item_id = api_response["items"][i]["id"]
 
             bad_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
-
     
     return good_vid_list, bad_vid_list
 
 
 # Builds API request.
 def api_request(api_key, pl_id, num_results=1):
-    api_service_name = "youtube"
-    api_version = "v3"
-
-    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = api_key)
+    youtube = build_service_obj(False, api_key)
 
     request = youtube.playlistItems().list(
         part="snippet,contentDetails,status",

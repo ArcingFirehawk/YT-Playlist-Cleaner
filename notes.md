@@ -1,5 +1,6 @@
 ## To-Do
 + playlist_edit.py works, but I have to authorize the API request every time.
++ common_funcs.build_service_obj, restrict need_auth to boolean?
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
