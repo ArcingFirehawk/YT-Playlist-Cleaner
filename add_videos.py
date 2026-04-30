@@ -34,7 +34,6 @@ def main():
     playlist_id = get_env("NEW_PLAYLIST_ID")
     vid_id = get_env("TEST_VIDEO")
 
-    print(f"\n\n{api_key_private}\n\n")
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"

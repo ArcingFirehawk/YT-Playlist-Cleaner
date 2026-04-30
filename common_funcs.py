@@ -33,7 +33,6 @@ def print_to_file(input, file_name):
 def build_service_obj(need_auth, api_key):
     api_service_name = "youtube"
     api_version = "v3"
-    scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 
 
     """
@@ -41,9 +40,6 @@ def build_service_obj(need_auth, api_key):
     True creates authorized service obj., False creates simple service obj.
     """
     if need_auth:
-        # flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(api_key, scopes)
-        # credentials = flow.run_local_server(port=0)
-        # youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
         youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=api_key)
     elif need_auth == False:
         youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=api_key)

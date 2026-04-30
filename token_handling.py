@@ -86,8 +86,6 @@ def main():
     with open(token_file, "w") as f:
         f.write(credentials.to_json())
 
-    print(f"\n\n{credentials}\n\n")
-
     return credentials
     
 
