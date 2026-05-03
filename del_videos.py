@@ -10,7 +10,7 @@ from token_handling import check_token
 
 # Builds API request.
 def api_request(api_key, pl_item_id, vid_title="--"):
-    youtube = build_service_obj(False, api_key)
+    youtube = build_service_obj(True, api_key)
 
     request = youtube.playlistItems().delete(
         id=pl_item_id

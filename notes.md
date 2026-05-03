@@ -1,8 +1,6 @@
 ## To-Do
 + common_funcs.build_service_obj, restrict need_auth to boolean?
-+ Add try-except to files that call common_funcs.build_service_obj in case of failures.
-+ Add operation success messages to add_videos.py, del_videos.py, and get_videos.py.
-  + E.g., "Successfully added the video(s) to the playlist."
++ get_token() in token_handling.py doesn't get called when token.json is invalid.
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
