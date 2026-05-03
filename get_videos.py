@@ -36,6 +36,9 @@ def extract(api_response):
     return good_vid_list, bad_vid_list
 
 
+
+
+
 # Builds API request.
 def api_request(api_key, pl_id, num_results=1):
     youtube = build_service_obj(False, api_key)
@@ -46,7 +49,20 @@ def api_request(api_key, pl_id, num_results=1):
         playlistId=pl_id
     )
 
-    return request.execute()
+    try:
+        response = request.execute()
+        msg()
+        
+        return response
+    except Exception as e:
+        print(f"\n\nThere was an error with the get request. ERROR: {e}.")
+
+
+# Prints a message to console notifying user of successful operation.
+def msg():
+    print(f"\n\nSucessfully retrieved the videos from YouTube.")
+
+
 
 
 def main():

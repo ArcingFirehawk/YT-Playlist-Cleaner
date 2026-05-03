@@ -37,6 +37,9 @@ def check_token():
         print(f"\n\nRefresh token expired, requesting authorization again.")
         credentials = get_token()
 
+
+    credentials = get_token()
+
     return credentials
 
 

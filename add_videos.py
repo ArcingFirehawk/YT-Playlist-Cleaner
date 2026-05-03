@@ -8,7 +8,7 @@ from token_handling import check_token
 
 
 # Builds API request.
-def api_request(api_key, pl_id, vid_id):
+def api_request(api_key, pl_id, vid_id, vid_title="--"):
     youtube = build_service_obj(True, api_key)
 
     request = youtube.playlistItems().insert(
@@ -25,7 +25,16 @@ def api_request(api_key, pl_id, vid_id):
         }
     )
     
-    request.execute()
+    try:
+        request.execute()
+        msg(vid_title)
+    except Exception as e:
+        print(f"\n\nThere was an error with the add request. ERROR: {e}.")
+
+
+# Prints a message to console notifying user of successful operation.
+def msg(vid_title):
+    print(f"Sucessfully added \"{vid_title}\" to the new playlist.")
 
 
 def main():
