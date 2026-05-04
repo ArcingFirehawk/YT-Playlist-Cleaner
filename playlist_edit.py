@@ -10,7 +10,7 @@ from token_handling import check_token
 
 
 def main():
-    api_key_public = get_env("API_KEY")
+    api_key_public = get_env("PUBLIC_API_KEY")
     api_key_private = check_token()
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")

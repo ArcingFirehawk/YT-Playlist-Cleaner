@@ -66,7 +66,7 @@ def msg():
 
 
 def main():
-    api_key = get_env("API_KEY")
+    api_key = get_env("PUBLIC_API_KEY")
     pl_id = get_env("OLD_PLAYLIST_ID")
     max_results = 3
 

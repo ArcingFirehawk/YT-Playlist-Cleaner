@@ -1,6 +1,8 @@
 ## To-Do
 + common_funcs.build_service_obj, restrict need_auth to boolean?
 + get_token() in token_handling.py doesn't get called when token.json is invalid.
+  + Token is found locally.
+  + No errors from credentials.refresh(Request()) if token is expired.
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
