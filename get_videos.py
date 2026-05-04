@@ -49,13 +49,16 @@ def api_request(api_key, pl_id, num_results=1):
         playlistId=pl_id
     )
 
-    try:
-        response = request.execute()
-        msg()
+    # response = request.execute()
+    return request.execute()
+
+    # try:
+    #     response = request.execute()
+    #     msg()
         
-        return response
-    except Exception as e:
-        print(f"\n\nThere was an error with the get request. ERROR: {e}.")
+    #     return response
+    # except Exception as e:
+    #     print(f"\n\nThere was an error with the get request. ERROR: {e}.")
 
 
 # Prints a message to console notifying user of successful operation.

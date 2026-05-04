@@ -2,7 +2,10 @@
 + common_funcs.build_service_obj, restrict need_auth to boolean?
 + get_token() in token_handling.py doesn't get called when token.json is invalid.
   + Token is found locally.
-  + No errors from credentials.refresh(Request()) if token is expired.
++ token_handling.check_token()
+  + For some reason `credentials.refresh(Request())` doesn't get an error if the token is expired.
+  + Testing the try-except with `get_videos.api_request()` instead brings up an error with an expired token. However, it now always excutes the except part.
+  + ... Temporary solution is to have a try-except in playlist_edit.py for the `add_videos.api_request()` and `del_videos.api_request()` to call token_handling.get_token().
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".

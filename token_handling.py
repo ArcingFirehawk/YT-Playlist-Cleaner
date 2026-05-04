@@ -12,6 +12,8 @@ from google.oauth2.credentials import Credentials
 import google_auth_oauthlib.flow
 import google.auth.exceptions
 
+from common_funcs import get_env
+
 
 
 scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
@@ -24,21 +26,22 @@ def check_token():
 
 
     # if statement that checks if the token already exists and works.
-    if os.path.exists(token_file):
+    if os.path.exists(token_file):        
         try:
             credentials = Credentials.from_authorized_user_file(token_file, scopes)
             credentials.refresh(Request())
-        except google.auth.exceptions.RefreshError as error:
+        except google.auth.exceptions.RefreshError as e:
             credentials = None
-            print(f"\n\nRefresh token expired, requesting authorization again. \nError: {error}.")
+            print(f"\n\nRefresh token expired, requesting authorization again. Error: {e}.")
 
     # if statement to get a new token if it doesn't exist or is invalid.
-    if not credentials or credentials.token_state == 3:
+    if not credentials or credentials.token_state == "INVALID":
+        print(f"\n\nHere are the credentials at start of if: {credentials}.")
         print(f"\n\nRefresh token expired, requesting authorization again.")
         credentials = get_token()
 
 
-    credentials = get_token()
+    # credentials = get_token()
 
     return credentials
 
