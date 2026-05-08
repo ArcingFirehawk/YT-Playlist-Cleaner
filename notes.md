@@ -1,3 +1,7 @@
+## Commands
+  + Activate virtual environment with `source .venv/Scripts/activate` in bash terminal.
+  + Dectivate virtual environment with `deactivate` in bash terminal.
+
 ## To-Do
 + `token_handling.check_token()` Function
   + For some reason `credentials.refresh(Request())` doesn't seem to work.~~get an error if the token is expired.~~
@@ -7,7 +11,6 @@
   + ~~common_funcs.build_service_obj, restrict need_auth to boolean?~~
   + Find way to go through if-else statement without the need_auth param.
     + This is what's tripping up my API calls in token_handling.py.
-
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
@@ -19,3 +22,21 @@
 + You shouldn't pass mutable data types as default arguements.
 + I can only add/delete one video from a playlist at a time.
 + According to the Credentials class in google.oauth2.credentials, some attributes (e.g., .expired and .valid) are depreciated. Use .token_state instead.
+
+## Tutorials
++ YT
+  + https://code.visualstudio.com/docs/languages/python
+  + https://code.visualstudio.com/docs/python/python-tutorial
+  + https://developers.google.com/youtube/v3/quickstart/python
+  + https://developers.google.com/youtube/v3/docs/playlistItems
+  + https://github.com/googleapis/google-api-python-client/tree/main
+
+
+  + Uninstalling Python Libraries: https://www.w3schools.com/python/gloss_python_pip_packages_remove.asp
+  + Python Virtual Environment: https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/
+
+  + https://www.youtube.com/watch?v=eDe-z2Qy9x4
+  + https://www.youtube.com/watch?v=i_5xPDX-erE
+  + https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU
+
+  + https://stackoverflow.com/a/73376365
