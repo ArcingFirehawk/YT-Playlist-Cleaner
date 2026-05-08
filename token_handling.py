@@ -10,9 +10,11 @@ import os
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 import google_auth_oauthlib.flow
-import google.auth.exceptions
+# import google.auth.exceptions
+import googleapiclient.errors
 
 from common_funcs import get_env
+import get_videos
 
 
 
@@ -29,19 +31,19 @@ def check_token():
     if os.path.exists(token_file):        
         try:
             credentials = Credentials.from_authorized_user_file(token_file, scopes)
-            credentials.refresh(Request())
-        except google.auth.exceptions.RefreshError as e:
+            pl_id = get_env("NEW_PLAYLIST_ID")
+
+            get_videos.api_request(credentials, pl_id)
+            # credentials.refresh(Request())    # This doesn't work.
+
+        # except google.auth.exceptions.RefreshError as e:
+        except googleapiclient.errors.HttpError as e:
+            print(f"\n\nRefresh token expired, requesting authorization again. ERROR: {e}.")
             credentials = None
-            print(f"\n\nRefresh token expired, requesting authorization again. Error: {e}.")
 
-    # if statement to get a new token if it doesn't exist or is invalid.
+        # if statement to get a new token if it doesn't exist or is invalid.
     if not credentials or credentials.token_state == "INVALID":
-        print(f"\n\nHere are the credentials at start of if: {credentials}.")
-        print(f"\n\nRefresh token expired, requesting authorization again.")
         credentials = get_token()
-
-
-    # credentials = get_token()
 
     return credentials
 

@@ -36,6 +36,8 @@ def build_service_obj(need_auth, api_key):
     """
     if-else statement to test if need_auth is True or False to determine type of obj. to build.
     True creates authorized service obj., False creates simple service obj.
+
+    !!! Find way to do this without having the need_auth parameter.
     """
     if need_auth:
         youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=api_key)
