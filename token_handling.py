@@ -16,8 +16,8 @@ import get_videos
 
 
 
-scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
-token_file = "Credentials/token.json"
+SCOPES = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+TOKEN_FILE = "Credentials/token.json"
 
 
 # Checks if refresh token already exists and valid.
@@ -26,9 +26,9 @@ def check_token():
 
 
     # if statement that checks if the token already exists and works.
-    if os.path.exists(token_file):        
+    if os.path.exists(TOKEN_FILE):        
         try:
-            credentials = Credentials.from_authorized_user_file(token_file, scopes)
+            credentials = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
             pl_id = get_env("NEW_PLAYLIST_ID")
 
             get_videos.api_request(credentials, pl_id)
@@ -50,10 +50,10 @@ def check_token():
 def get_token():
     api_key_private = "Credentials/client_secret_file.json"
 
-    flow = InstalledAppFlow.from_client_secrets_file(api_key_private, scopes)
+    flow = InstalledAppFlow.from_client_secrets_file(api_key_private, SCOPES)
     credentials = flow.run_local_server(port=0)
 
-    with open(token_file, "w") as f:
+    with open(TOKEN_FILE, "w") as f:
         f.write(credentials.to_json())
     
     return credentials

@@ -30,17 +30,17 @@ def print_to_file(input, file_name):
 
 # Builds YT Data API service obj.
 def build_service_obj(api_key):
-    api_service_name = "youtube"
-    api_version = "v3"
+    API_SERVICE_NAME = "youtube"
+    API_VERSION = "v3"
 
 
     """
     if-else statement that builds youtube obj. based on api_key's obj. type.
     """
     if isinstance(api_key, Credentials):
-        youtube = build(api_service_name, api_version, credentials=api_key)
+        youtube = build(API_SERVICE_NAME, API_VERSION, credentials=api_key)
     else:
-        youtube = build(api_service_name, api_version, developerKey=api_key)
+        youtube = build(API_SERVICE_NAME, API_VERSION, developerKey=api_key)
 
     
     return youtube
