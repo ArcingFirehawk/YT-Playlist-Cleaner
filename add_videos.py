@@ -9,7 +9,7 @@ from token_handling import check_token
 
 # Builds API request.
 def api_request(api_key, pl_id, vid_id, vid_title="--"):
-    youtube = build_service_obj(True, api_key)
+    youtube = build_service_obj(api_key)
 
     request = youtube.playlistItems().insert(
         part="snippet",
@@ -34,7 +34,10 @@ def api_request(api_key, pl_id, vid_id, vid_title="--"):
 
 # Prints a message to console notifying user of successful operation.
 def msg(vid_title):
-    print(f"Sucessfully added \"{vid_title}\" to the new playlist.")
+    if vid_title == "--":
+        print("Sucessfully added the video to the new playlist.")
+    else:
+        print(f"Sucessfully added \"{vid_title}\" to the new playlist.")
 
 
 def main():

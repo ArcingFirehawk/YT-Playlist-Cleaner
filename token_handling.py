@@ -22,7 +22,7 @@ scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
 token_file = "Credentials/token.json"
 
 
-# Checks if refresh token already exists.
+# Checks if refresh token already exists and valid.
 def check_token():
     credentials = None
 

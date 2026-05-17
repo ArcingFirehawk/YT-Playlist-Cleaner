@@ -10,7 +10,7 @@ from token_handling import check_token
 
 # Builds API request.
 def api_request(api_key, pl_item_id, vid_title="--"):
-    youtube = build_service_obj(True, api_key)
+    youtube = build_service_obj(api_key)
 
     request = youtube.playlistItems().delete(
         id=pl_item_id
@@ -26,7 +26,7 @@ def api_request(api_key, pl_item_id, vid_title="--"):
 
 # Prints a message to console notifying user of successful operation.
 def msg(vid_title):
-    print(f"Sucessfully deleted \"{vid_title}\" from the new playlist.")
+    print(f"Sucessfully deleted \"{vid_title}\" from the playlist.")
 
 
 

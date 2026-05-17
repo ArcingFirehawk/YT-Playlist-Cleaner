@@ -5,6 +5,7 @@ PURPOSE: Collection of common functions.
 import os, json
 import googleapiclient.discovery
 from dotenv import load_dotenv
+from google.oauth2 import credentials
 
 
 
@@ -28,22 +29,18 @@ def print_to_file(input, file_name):
 
 
 # Builds YT Data API service obj.
-def build_service_obj(need_auth, api_key):
+def build_service_obj(api_key):
     api_service_name = "youtube"
     api_version = "v3"
 
 
     """
-    if-else statement to test if need_auth is True or False to determine type of obj. to build.
-    True creates authorized service obj., False creates simple service obj.
-
-    !!! Find way to do this without having the need_auth parameter.
+    if-else statement that builds youtube obj. based on api_key's obj. type.
     """
-    if need_auth:
+    if isinstance(api_key, credentials.Credentials):
         youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=api_key)
-    elif not need_auth:
-        youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=api_key)
     else:
-        youtube = None
+        youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=api_key)
+
     
     return youtube

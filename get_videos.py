@@ -41,7 +41,7 @@ def extract(api_response):
 
 # Builds API request.
 def api_request(api_key, pl_id, num_results=1):
-    youtube = build_service_obj(False, api_key)
+    youtube = build_service_obj(api_key)
 
     request = youtube.playlistItems().list(
         part="snippet,contentDetails,status",
@@ -50,15 +50,15 @@ def api_request(api_key, pl_id, num_results=1):
     )
 
     # response = request.execute()
-    return request.execute()
+    # return request.execute()
 
-    # try:
-    #     response = request.execute()
-    #     msg()
+    try:
+        response = request.execute()
+        msg()
         
-    #     return response
-    # except Exception as e:
-    #     print(f"\n\nThere was an error with the get request. ERROR: {e}.")
+        return response
+    except Exception as e:
+        print(f"\n\nThere was an error with the get request. ERROR: {e}.")
 
 
 # Prints a message to console notifying user of successful operation.

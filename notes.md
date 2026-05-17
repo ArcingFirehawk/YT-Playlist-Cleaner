@@ -7,11 +7,12 @@
   + For some reason `credentials.refresh(Request())` doesn't seem to work.~~get an error if the token is expired.~~
   + ~~Testing the try-except with `get_videos.api_request()` instead brings up an error with an expired token. However, it now always excutes the except part.~~
   + ~~... Temporary solution is t  + Testing the try-except with `get_videos.api_request()` instead brings up an error with an expired token. However, it now always excutes the except part.o have a try-except in playlist_edit.py for the `add_videos.api_request()` and `del_videos.api_request()` to call token_handling.get_token().~~
-+ `common_funcs.build_service_obj()` Function
-  + ~~common_funcs.build_service_obj, restrict need_auth to boolean?~~
-  + Find way to go through if-else statement without the need_auth param.
-    + This is what's tripping up my API calls in token_handling.py.
++ ~~`common_funcs.build_service_obj()` Function~~
+  + ~~common_funcs.build_service_obj, restrict need_auth to boolean~?~~
+  + ~~Fi~nd way to go through if-else statement without the need_auth param.~~
+    + ~~This is what's tripping up my API calls in token_handling.py.~~
 + Streamline imports (E.g., `from get_videos import api_request as get_request` and `from googleapiclient.discovery import build`).
++ Need to test add_video.py when token is expired.
 
 ## Notes
 + In my first request to the API, I asked for the IDs of the first 5 videos. However, they weren't what I was looking for. So, I tried the getting all fields for one video to isolate the actual video ID. It's under "[index][contentDetail][videoId]" or "[index][snippet][resourceId][videoId]".
