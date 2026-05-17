@@ -3,9 +3,9 @@ PURPOSE: Collection of common functions.
 """
 
 import os, json
-import googleapiclient.discovery
+from googleapiclient.discovery import build
 from dotenv import load_dotenv
-from google.oauth2 import credentials
+from google.oauth2.credentials import Credentials
 
 
 
@@ -37,10 +37,10 @@ def build_service_obj(api_key):
     """
     if-else statement that builds youtube obj. based on api_key's obj. type.
     """
-    if isinstance(api_key, credentials.Credentials):
-        youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=api_key)
+    if isinstance(api_key, Credentials):
+        youtube = build(api_service_name, api_version, credentials=api_key)
     else:
-        youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey=api_key)
+        youtube = build(api_service_name, api_version, developerKey=api_key)
 
     
     return youtube

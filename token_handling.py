@@ -7,11 +7,9 @@ EDITED BY: Anthony Choi
 """
 
 import os
-from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-import google_auth_oauthlib.flow
-# import google.auth.exceptions
-import googleapiclient.errors
+from  google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.errors import HttpError
 
 from common_funcs import get_env
 import get_videos
@@ -37,7 +35,7 @@ def check_token():
             # credentials.refresh(Request())    # This doesn't work.
 
         # except google.auth.exceptions.RefreshError as e:
-        except googleapiclient.errors.HttpError as e:
+        except HttpError as e:
             print(f"\n\nRefresh token expired, requesting authorization again. ERROR: {e}.")
             credentials = None
 
@@ -52,7 +50,7 @@ def check_token():
 def get_token():
     api_key_private = "Credentials/client_secret_file.json"
 
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(api_key_private, scopes)
+    flow = InstalledAppFlow.from_client_secrets_file(api_key_private, scopes)
     credentials = flow.run_local_server(port=0)
 
     with open(token_file, "w") as f:

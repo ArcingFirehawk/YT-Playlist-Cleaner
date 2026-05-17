@@ -11,7 +11,7 @@
   + ~~common_funcs.build_service_obj, restrict need_auth to boolean~?~~
   + ~~Fi~nd way to go through if-else statement without the need_auth param.~~
     + ~~This is what's tripping up my API calls in token_handling.py.~~
-+ Streamline imports (E.g., `from get_videos import api_request as get_request` and `from googleapiclient.discovery import build`).
++ ~~Streamline imports (E.g., `from get_videos import api_request as get_request` and `from googleapiclient.discovery import build`).~~
 + Need to test add_video.py when token is expired.
 
 ## Notes
