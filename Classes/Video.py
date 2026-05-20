@@ -1,8 +1,8 @@
 class Video:
     def __init__(self, title, vid_id, creator, pl_item_id):
         self.title = title
-        self.vid_id = vid_id
         self.creator = creator
+        self.vid_id = vid_id
         self.pl_item_id = pl_item_id
 
 

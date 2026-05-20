@@ -3,9 +3,9 @@ PURPOSE: Collection of common functions.
 """
 
 import os, json
+from googleapiclient.discovery import build
 from dotenv import load_dotenv
-from Classes.Video import Video
-
+from google.oauth2.credentials import Credentials
 
 
 
@@ -26,3 +26,21 @@ def print_to_file(input, file_name):
     else:
         with open(file_directory, "w") as f:
             json.dump(input, f)
+
+
+# Builds YT Data API service obj.
+def build_service_obj(api_key):
+    API_SERVICE_NAME = "youtube"
+    API_VERSION = "v3"
+
+
+    """
+    if-else statement that builds youtube obj. based on api_key's obj. type.
+    """
+    if isinstance(api_key, Credentials):
+        youtube = build(API_SERVICE_NAME, API_VERSION, credentials=api_key)
+    else:
+        youtube = build(API_SERVICE_NAME, API_VERSION, developerKey=api_key)
+
+    
+    return youtube

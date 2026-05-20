@@ -1,5 +1,12 @@
 .venv
-.env
-Output
-client_secret_file.json
 __pycache__
+
+# Credentials
+.env
+client_secret_file.json
+token.json
+
+# Output
+rawResponse.json
+processedResponseGood.json
+processedResponseBad.json

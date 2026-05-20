@@ -3,8 +3,7 @@ PURPOSE: Get the videos of a Youtube playlist via the Youtube Data API and outpu
 """
 
 import os
-import googleapiclient.discovery
-from common_funcs import get_env, print_to_file
+from common_funcs import get_env, print_to_file, build_service_obj
 from Classes.Video import Video
 
 
@@ -21,29 +20,26 @@ def extract(api_response):
 
         if vid_status == "public":
             vid_title = api_response["items"][i]["snippet"]["title"]
-            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             vid_creator = api_response["items"][i]["snippet"]["videoOwnerChannelTitle"]
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             pl_item_id = api_response["items"][i]["id"]
 
             good_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
         else:
             vid_title = f"Unavailable{i + 1:02d}"
-            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             vid_creator = "N/A"
+            vid_id = api_response["items"][i]["contentDetails"]["videoId"]
             pl_item_id = api_response["items"][i]["id"]
 
             bad_vid_list.append(Video(vid_title, vid_id, vid_creator, pl_item_id))
-
     
     return good_vid_list, bad_vid_list
 
 
+
 # Builds API request.
 def api_request(api_key, pl_id, num_results=1):
-    api_service_name = "youtube"
-    api_version = "v3"
-
-    youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = api_key)
+    youtube = build_service_obj(api_key)
 
     request = youtube.playlistItems().list(
         part="snippet,contentDetails,status",
@@ -51,11 +47,22 @@ def api_request(api_key, pl_id, num_results=1):
         playlistId=pl_id
     )
 
-    return request.execute()
+    try:
+        response = request.execute()
+        msg()
+                    
+        return response
+    except Exception as e:
+        print(f"\n\nThere was an error with the get request. ERROR: {e}.")
+
+
+# Prints a message to console notifying user of successful operation.
+def msg():
+    print(f"\n\nSucessfully retrieved the videos from YouTube.")
 
 
 def main():
-    api_key = get_env("API_KEY")
+    api_key = get_env("PUBLIC_API_KEY")
     pl_id = get_env("OLD_PLAYLIST_ID")
     max_results = 3
 
@@ -73,12 +80,12 @@ def main():
 
     if good_length > 0:
         print("\n\n-----Good Videos List-----")
-        for i in range(len(good_vid_list)):
+        for i in range(good_length):
             print(good_vid_list[i].title)
     
     if bad_length > 0:
         print("\n-----Bad Videos List-----")
-        for i in range(len(bad_vid_list)):
+        for i in range(bad_length):
             print(bad_vid_list[i].title)
     print("\n\n")
 

@@ -2,24 +2,14 @@
 PURPOSE: Adds videos to a playlist using their video ID.
 """
 
-import google_auth_oauthlib.flow
-import googleapiclient.discovery
 import os
-from common_funcs import get_env
-
-
-scopes = ["https://www.googleapis.com/auth/youtube.force-ssl"]
+from common_funcs import get_env, build_service_obj
+from token_handling import check_token
 
 
 # Builds API request.
-def api_request(api_key, pl_id, vid_id):
-    api_service_name = "youtube"
-    api_version = "v3"
-
-    # Get credentials and create an API client.
-    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(api_key, scopes)
-    credentials = flow.run_local_server(port=0)
-    youtube = googleapiclient.discovery.build(api_service_name, api_version, credentials=credentials)
+def api_request(api_key, pl_id, vid_id, vid_title="--"):
+    youtube = build_service_obj(api_key)
 
     request = youtube.playlistItems().insert(
         part="snippet",
@@ -35,11 +25,23 @@ def api_request(api_key, pl_id, vid_id):
         }
     )
     
-    request.execute()
+    try:
+        request.execute()
+        msg(vid_title)
+    except Exception as e:
+        print(f"\n\nThere was an error with the add request. ERROR: {e}.")
+
+
+# Prints a message to console notifying user of successful operation.
+def msg(vid_title):
+    if vid_title == "--":
+        print("Sucessfully added the video to the new playlist.")
+    else:
+        print(f"Sucessfully added \"{vid_title}\" to the new playlist.")
 
 
 def main():
-    api_key_private = "Credentials/client_secret_file.json"
+    api_key_private = check_token()
     playlist_id = get_env("NEW_PLAYLIST_ID")
     vid_id = get_env("TEST_VIDEO")
 
