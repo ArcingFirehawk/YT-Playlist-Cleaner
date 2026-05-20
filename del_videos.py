@@ -23,12 +23,12 @@ def api_request(api_key, pl_item_id, vid_title="--"):
         print(f"\n\nThere was an error with the delete request. ERROR: {e}.")
     
 
-
 # Prints a message to console notifying user of successful operation.
 def msg(vid_title):
-    print(f"Sucessfully deleted \"{vid_title}\" from the playlist.")
-
-
+    if vid_title == "--":
+        print("Sucessfully deleted the video from the old playlist.")
+    else:
+        print(f"Sucessfully deleted \"{vid_title}\" from the old playlist.")
 
 
 def main():
@@ -36,8 +36,7 @@ def main():
     pl_item_id = get_env("TEST_PLAYLIST_ITEM_ID")
     
     
-    # Disable OAuthlib's HTTPS verification when running locally.
-    # *DO NOT* leave this option enabled in production.
+    # Disable OAuthlib's HTTPS verification when running locally. DON'T leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
     
     api_request(api_key_private, pl_item_id)

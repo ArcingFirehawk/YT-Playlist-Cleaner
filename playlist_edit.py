@@ -14,7 +14,7 @@ def main():
     api_key_private = check_token()
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
-    max_results = 1 # Max is 50.
+    max_results = 3 # Max is 50.
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
@@ -33,6 +33,7 @@ def main():
     for i in range(good_length):
         add_videos.api_request(api_key_private, new_pl_id, good_vid_list[i].vid_id, good_vid_list[i].title)
         del_videos.api_request(api_key_private, good_vid_list[i].pl_item_id, good_vid_list[i].title)
+        print("\n")
 
 
 if __name__ == "__main__":
