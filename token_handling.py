@@ -32,9 +32,7 @@ def check_token():
             pl_id = get_env("NEW_PLAYLIST_ID")
 
             get_videos.api_request(credentials, pl_id)
-            # credentials.refresh(Request())    # This doesn't work.
 
-        # except google.auth.exceptions.RefreshError as e:
         except HttpError as e:
             print(f"\n\nRefresh token expired, requesting authorization again. ERROR: {e}.")
             credentials = None
