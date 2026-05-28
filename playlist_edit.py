@@ -15,7 +15,7 @@ def main():
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
     blacklist = []    # List of creators whose videos won't be added to the new playlist.
-    max_results = 1 # Max is 50.
+    max_results = 3 # Max is 50.
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
