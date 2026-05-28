@@ -4,7 +4,7 @@ PURPOSE: To consolidate get_videos.py, add_videos.py, and del_videos.py into one
 
 import os
 import get_videos, add_videos, del_videos
-from common_funcs import get_env
+from common_funcs import get_env, print_to_file
 from token_handling import check_token
 
 
@@ -20,10 +20,16 @@ def main():
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
 
     response = get_videos.api_request(api_key_public, old_pl_id, max_results)
+
+    print_to_file(response, "rawResponse.json")
+
     
     good_vid_list, bad_vid_list = get_videos.extract(response)
     good_length = len(good_vid_list)
     bad_length = len(bad_vid_list)
+
+    print_to_file(good_vid_list, "processedResponseGood.json")
+    print_to_file(bad_vid_list, "processedResponseBad.json")
 
     # if statement to clean up old playlist so next API request has fewer "bad" videos.
     if bad_length >= 20:
