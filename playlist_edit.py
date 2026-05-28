@@ -14,7 +14,8 @@ def main():
     api_key_private = check_token()
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
-    max_results = 3 # Max is 50.
+    blacklist = []    # List of creators whose videos won't be added to the new playlist.
+    max_results = 1 # Max is 50.
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
@@ -28,6 +29,7 @@ def main():
     good_length = len(good_vid_list)
     bad_length = len(bad_vid_list)
 
+
     print_to_file(good_vid_list, "processedResponseGood.json")
     print_to_file(bad_vid_list, "processedResponseBad.json")
 
@@ -37,8 +39,12 @@ def main():
             del_videos.api_request(api_key_private, bad_vid_list[i].pl_item_id)
 
     for i in range(good_length):
-        add_videos.api_request(api_key_private, new_pl_id, good_vid_list[i].vid_id, good_vid_list[i].title)
-        del_videos.api_request(api_key_private, good_vid_list[i].pl_item_id, good_vid_list[i].title)
+        if good_vid_list[i].creator in blacklist:
+            pass
+        else:
+            add_videos.api_request(api_key_private, new_pl_id, good_vid_list[i].vid_id, good_vid_list[i].title)
+            del_videos.api_request(api_key_private, good_vid_list[i].pl_item_id, good_vid_list[i].title)
+        
         print("\n")
 
 
