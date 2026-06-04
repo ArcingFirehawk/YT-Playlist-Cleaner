@@ -14,8 +14,8 @@ def main():
     api_key_private = check_token()
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
-    blacklist = []    # List of creators whose videos won't be added to the new playlist.
-    max_results = 3 # Max is 50.
+    blacklist = ["PocketMonstersMusic"]    # List of creators whose videos won't be added to the new playlist.
+    max_results = 50 # Max is 50.
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"

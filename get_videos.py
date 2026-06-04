@@ -58,7 +58,7 @@ def api_request(api_key, pl_id, num_results=1):
 
 # Prints a message to console notifying user of successful operation.
 def msg():
-    print(f"\n\nSucessfully retrieved the videos from YouTube.")
+    print(f"\n\nSucessfully retrieved videos from YouTube.")
 
 
 def main():

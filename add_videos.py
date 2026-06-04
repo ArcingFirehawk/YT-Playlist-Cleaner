@@ -35,9 +35,9 @@ def api_request(api_key, pl_id, vid_id, vid_title="--"):
 # Prints a message to console notifying user of successful operation.
 def msg(vid_title):
     if vid_title == "--":
-        print("Sucessfully added the video to the new playlist.")
+        print("Sucessfully added video to new playlist.")
     else:
-        print(f"Sucessfully added \"{vid_title}\" to the new playlist.")
+        print(f"Sucessfully added \"{vid_title}\" to new playlist.")
 
 
 def main():

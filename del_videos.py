@@ -26,9 +26,9 @@ def api_request(api_key, pl_item_id, vid_title="--"):
 # Prints a message to console notifying user of successful operation.
 def msg(vid_title):
     if vid_title == "--":
-        print("Sucessfully deleted the video from the old playlist.")
+        print("Sucessfully deleted video from old playlist.")
     else:
-        print(f"Sucessfully deleted \"{vid_title}\" from the old playlist.")
+        print(f"Sucessfully deleted \"{vid_title}\" from old playlist.")
 
 
 def main():
