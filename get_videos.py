@@ -12,7 +12,7 @@ from Classes.Video import Video
 def extract(api_response):
     good_vid_list = []  # List containing public videos.
     bad_vid_list = []   # List containing unavailable videos.
-    length = api_response["pageInfo"]["resultsPerPage"]
+    length = api_response["pageInfo"]["totalResults"]
 
 
     for i in range(length):
