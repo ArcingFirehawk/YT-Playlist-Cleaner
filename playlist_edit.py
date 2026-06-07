@@ -4,7 +4,7 @@ PURPOSE: To consolidate get_videos.py, add_videos.py, and del_videos.py into one
 
 import os
 import get_videos, add_videos, del_videos
-from common_funcs import get_env, print_to_file
+from common_funcs import get_env, print_to_file, read_file
 from token_handling import check_token
 
 
@@ -14,8 +14,8 @@ def main():
     api_key_private = check_token()
     old_pl_id = get_env("OLD_PLAYLIST_ID")
     new_pl_id = get_env("NEW_PLAYLIST_ID")
-    blacklist = ["PocketMonstersMusic"]    # List of creators whose videos won't be added to the new playlist.
-    max_results = 50 # Max is 50.
+    blacklist = read_file()                   # List of creators whose videos won't be added to the new playlist.
+    max_results = 50                          # Max is 50.
 
 
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"

@@ -28,6 +28,15 @@ def print_to_file(input, file_name):
             json.dump(input, f)
 
 
+# Reads a .txt file and returns its contents as a list.
+def read_file():
+    with open("Credentials/blacklist.txt") as f:
+        file = f.read().splitlines()
+        f.close()
+
+    return file
+
+
 # Builds YT Data API service obj.
 def build_service_obj(api_key):
     API_SERVICE_NAME = "youtube"

@@ -5,6 +5,7 @@ __pycache__
 .env
 client_secret_file.json
 token.json
+blacklist.txt
 
 # Output
 rawResponse.json
