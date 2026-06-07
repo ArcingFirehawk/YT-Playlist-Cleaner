@@ -10,6 +10,10 @@ from Classes.Video import Video
 
 # Extracts the API's output into the Video class format.
 def extract(api_response):
+    if api_response == None:
+        print("\nThe playlist you've selected has no videos. Please try a different one.")
+        exit()
+
     good_vid_list = []  # List containing public videos.
     bad_vid_list = []   # List containing unavailable videos.
     length = api_response["pageInfo"]["totalResults"]
